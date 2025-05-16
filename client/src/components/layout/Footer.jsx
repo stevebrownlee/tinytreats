@@ -1,19 +1,25 @@
+import { Box, Flex, Text, Link as RadixLink } from '@radix-ui/themes';
+
 function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer-content">
-          <p>&copy; {currentYear} TinyTreats Bakery. All rights reserved.</p>
-          <div className="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Contact Us</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <Box asChild style={{ backgroundColor: 'white', marginTop: '40px', padding: '20px 0' }}>
+      <footer className="footer">
+        <Box className="container">
+          <Flex className="footer-content" justify="between" align="center" wrap="wrap" gap="4">
+            <Text color="gray" size="2">
+              &copy; {currentYear} TinyTreats Bakery. All rights reserved.
+            </Text>
+            <Flex className="footer-links" gap="4">
+              <RadixLink size="2" color="gray" href="#">Privacy Policy</RadixLink>
+              <RadixLink size="2" color="gray" href="#">Terms of Service</RadixLink>
+              <RadixLink size="2" color="gray" href="#">Contact Us</RadixLink>
+            </Flex>
+          </Flex>
+        </Box>
+      </footer>
+    </Box>
   );
 }
 

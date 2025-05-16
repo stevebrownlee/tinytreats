@@ -15,6 +15,10 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import OrdersPage from './pages/OrdersPage';
 import NotFoundPage from './pages/NotFoundPage';
+import TestPage from './pages/TestPage';
+import MockProductsPage from './pages/MockProductsPage';
+import SimplePage from './pages/SimplePage';
+import RadixDemoPage from './pages/RadixDemoPage';
 
 // Protected route component
 function ProtectedRoute({ children, requiredRoles = [] }) {
@@ -44,7 +48,7 @@ function Layout() {
   return (
     <>
       <NavBar />
-      <main className="container">
+      <main className="container" style={{ minHeight: 'calc(100vh - 200px)' }}>
         <Outlet />
       </main>
       <Footer />
@@ -101,6 +105,22 @@ export const router = createBrowserRouter([
             <OrdersPage />
           </ProtectedRoute>
         )
+      },
+      {
+        path: '/test',
+        element: <TestPage />
+      },
+      {
+        path: '/mock-products',
+        element: <MockProductsPage />
+      },
+      {
+        path: '/simple',
+        element: <SimplePage />
+      },
+      {
+        path: '/radix-demo',
+        element: <RadixDemoPage />
       },
       {
         path: '*',

@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { Flex, Card, Text, Button, TextField, Box, Heading, Avatar } from '@radix-ui/themes';
+import { Cross1Icon, MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 
 function CartItem({ item, onUpdateQuantity, onRemove }) {
   const handleQuantityChange = (e) => {
@@ -8,52 +10,92 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
     }
   };
 
+  const handleIncrement = () => {
+    onUpdateQuantity(item.id, item.quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (item.quantity > 1) {
+      onUpdateQuantity(item.id, item.quantity - 1);
+    }
+  };
+
   const handleRemove = () => {
     onRemove(item.id);
   };
 
   return (
-    <div className="cart-item">
-      <div className="cart-item-image">
-        <img
+    <Card className="cart-item" size="2" mb="3">
+      <Flex gap="4" align="center">
+        <Avatar
+          size="5"
           src={item.imageUrl || '/placeholder-product.jpg'}
-          alt={item.name}
+          fallback={item.name.charAt(0)}
+          radius="medium"
         />
-      </div>
 
-      <div className="cart-item-details">
-        <h3 className="cart-item-name">
-          <Link to={`/products/${item.id}`}>{item.name}</Link>
-        </h3>
+        <Box style={{ flex: 1 }}>
+          <Heading as="h3" size="3" mb="1">
+            <Link to={`/products/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              {item.name}
+            </Link>
+          </Heading>
 
-        <div className="cart-item-price">${item.price.toFixed(2)}</div>
-      </div>
+          <Text as="div" size="2" color="gray">
+            ${item.price.toFixed(2)} each
+          </Text>
+        </Box>
 
-      <div className="cart-item-controls">
-        <div className="quantity-control">
-          <label htmlFor={`quantity-${item.id}`}>Qty:</label>
-          <input
-            type="number"
-            id={`quantity-${item.id}`}
-            min="1"
-            value={item.quantity}
-            onChange={handleQuantityChange}
-          />
-        </div>
+        <Flex direction="column" align="end" gap="2">
+          <Flex align="center" gap="1">
+            <Button
+              variant="soft"
+              color="gray"
+              size="1"
+              onClick={handleDecrement}
+              disabled={item.quantity <= 1}
+            >
+              <MinusIcon />
+            </Button>
 
-        <div className="cart-item-subtotal">
-          ${(item.price * item.quantity).toFixed(2)}
-        </div>
+            <TextField.Root size="1" style={{ width: '60px' }}>
+              <TextField.Input
+                type="number"
+                id={`quantity-${item.id}`}
+                min="1"
+                value={item.quantity}
+                onChange={handleQuantityChange}
+                style={{ textAlign: 'center' }}
+              />
+            </TextField.Root>
 
-        <button
-          onClick={handleRemove}
-          className="remove-item-btn"
-          aria-label={`Remove ${item.name} from cart`}
-        >
-          Remove
-        </button>
-      </div>
-    </div>
+            <Button
+              variant="soft"
+              color="gray"
+              size="1"
+              onClick={handleIncrement}
+            >
+              <PlusIcon />
+            </Button>
+          </Flex>
+
+          <Text as="div" size="3" weight="bold" color="pink">
+            ${(item.price * item.quantity).toFixed(2)}
+          </Text>
+
+          <Button
+            variant="soft"
+            color="red"
+            size="1"
+            onClick={handleRemove}
+            aria-label={`Remove ${item.name} from cart`}
+          >
+            <Cross1Icon />
+            <Text size="1">Remove</Text>
+          </Button>
+        </Flex>
+      </Flex>
+    </Card>
   );
 }
 

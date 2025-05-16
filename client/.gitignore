@@ -37,3 +37,6 @@ dist-ssr
 
 # Testing
 coverage
+.roo/
+.roomodes
+memory-bank/

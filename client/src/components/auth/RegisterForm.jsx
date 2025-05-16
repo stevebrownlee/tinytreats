@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import { Box, Card, Heading, Text, TextField, Button, Flex, Link as RadixLink } from '@radix-ui/themes';
+import { EnvelopeClosedIcon, LockClosedIcon, PersonIcon, HomeIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import * as Form from '@radix-ui/react-form';
 
 function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -96,84 +99,137 @@ function RegisterForm() {
   };
 
   return (
-    <div className="auth-form-container">
-      <h2>Create an Account</h2>
+    <Box className="auth-form-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px' }}>
+      <Card size="2">
+        <Heading size="5" mb="4" align="center">Create an Account</Heading>
 
-      {submitError && (
-        <div className="error-message">{submitError}</div>
-      )}
+        {submitError && (
+          <Flex mb="4" align="center" gap="2" style={{
+            padding: '10px',
+            backgroundColor: 'var(--pink-2)',
+            borderRadius: 'var(--radius-3)',
+            color: 'var(--pink-11)'
+          }}>
+            <ExclamationTriangleIcon />
+            <Text size="2">{submitError}</Text>
+          </Flex>
+        )}
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            disabled={isSubmitting}
-          />
-          {errors.email && <div className="error">{errors.email}</div>}
-        </div>
+        <form onSubmit={handleSubmit}>
+            <Box mb="4">
+              <label htmlFor="email">Email</label>
+              <div style={{ position: 'relative' }}>
+                <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                  <EnvelopeClosedIcon height="16" width="16" />
+                </div>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  placeholder="Enter your email"
+                  style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 'var(--radius-2)', border: '1px solid var(--gray-7)' }}
+                />
+              </div>
+              {errors.email && <Text size="1" style={{ color: 'var(--pink-11)' }}>{errors.email}</Text>}
+            </Box>
 
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            disabled={isSubmitting}
-          />
-          {errors.password && <div className="error">{errors.password}</div>}
-        </div>
+            <Box mb="4">
+              <label htmlFor="password">Password</label>
+              <div style={{ position: 'relative' }}>
+                <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                  <LockClosedIcon height="16" width="16" />
+                </div>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  placeholder="Enter your password"
+                  style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 'var(--radius-2)', border: '1px solid var(--gray-7)' }}
+                />
+              </div>
+              {errors.password && <Text size="1" style={{ color: 'var(--pink-11)' }}>{errors.password}</Text>}
+            </Box>
 
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            disabled={isSubmitting}
-          />
-          {errors.firstName && <div className="error">{errors.firstName}</div>}
-        </div>
+            <Flex gap="3" mb="4">
+              <Box style={{ flex: 1 }}>
+                <label htmlFor="firstName">First Name</label>
+                <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                    <PersonIcon height="16" width="16" />
+                  </div>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                    placeholder="First name"
+                    style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 'var(--radius-2)', border: '1px solid var(--gray-7)' }}
+                  />
+                </div>
+                {errors.firstName && <Text size="1" style={{ color: 'var(--pink-11)' }}>{errors.firstName}</Text>}
+              </Box>
 
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            disabled={isSubmitting}
-          />
-          {errors.lastName && <div className="error">{errors.lastName}</div>}
-        </div>
+              <Box style={{ flex: 1 }}>
+                <label htmlFor="lastName">Last Name</label>
+                <div style={{ position: 'relative' }}>
+                  <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                    <PersonIcon height="16" width="16" />
+                  </div>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                    placeholder="Last name"
+                    style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 'var(--radius-2)', border: '1px solid var(--gray-7)' }}
+                  />
+                </div>
+                {errors.lastName && <Text size="1" style={{ color: 'var(--pink-11)' }}>{errors.lastName}</Text>}
+              </Box>
+            </Flex>
 
-        <div className="form-group">
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            disabled={isSubmitting}
-          />
-          {errors.address && <div className="error">{errors.address}</div>}
-        </div>
+            <Box mb="4">
+              <label htmlFor="address">Address</label>
+              <div style={{ position: 'relative' }}>
+                <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}>
+                  <HomeIcon height="16" width="16" />
+                </div>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                  placeholder="Enter your address"
+                  style={{ width: '100%', padding: '8px 8px 8px 32px', borderRadius: 'var(--radius-2)', border: '1px solid var(--gray-7)' }}
+                />
+              </div>
+              {errors.address && <Text size="1" style={{ color: 'var(--pink-11)' }}>{errors.address}</Text>}
+            </Box>
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Registering...' : 'Register'}
-        </button>
-      </form>
-    </div>
+            <Button type="submit" disabled={isSubmitting} size="3" style={{ width: '100%' }}>
+              {isSubmitting ? 'Registering...' : 'Register'}
+            </Button>
+          </form>
+
+          <Box mt="4" style={{ textAlign: 'center' }}>
+            <Text size="2">
+              Already have an account? <RadixLink asChild><Link to="/login">Login</Link></RadixLink>
+            </Text>
+          </Box>
+      </Card>
+    </Box>
   );
 }
 

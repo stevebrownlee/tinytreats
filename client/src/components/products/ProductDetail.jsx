@@ -2,6 +2,26 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { productService } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
+import {
+  Heading,
+  Text,
+  Button,
+  Flex,
+  Box,
+  Card,
+  Grid,
+  AspectRatio,
+  TextField,
+  Separator,
+  Container
+} from '@radix-ui/themes';
+import {
+  ArrowLeftIcon,
+  PlusIcon,
+  MinusIcon,
+  BackpackIcon,
+  ReloadIcon
+} from '@radix-ui/react-icons';
 
 function ProductDetail({ onAddToCart }) {
   const { id } = useParams();
@@ -37,6 +57,16 @@ function ProductDetail({ onAddToCart }) {
     }
   };
 
+  const handleIncrement = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(prev => prev - 1);
+    }
+  };
+
   const handleAddToCart = () => {
     if (product) {
       onAddToCart({ ...product, quantity });
@@ -45,65 +75,124 @@ function ProductDetail({ onAddToCart }) {
   };
 
   if (loading) {
-    return <div className="loading">Loading product details...</div>;
+    return (
+      <Flex align="center" justify="center" py="9">
+        <Flex align="center" gap="2">
+          <ReloadIcon className="spinning" />
+          <Text size="3">Loading product details...</Text>
+        </Flex>
+      </Flex>
+    );
   }
 
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return (
+      <Card size="3" style={{ textAlign: 'center', padding: '40px 20px' }}>
+        <Text color="red" size="3">{error}</Text>
+      </Card>
+    );
   }
 
   if (!product) {
-    return <div className="error-message">Product not found</div>;
+    return (
+      <Card size="3" style={{ textAlign: 'center', padding: '40px 20px' }}>
+        <Text color="red" size="3">Product not found</Text>
+      </Card>
+    );
   }
 
   return (
-    <div className="product-detail-container">
-      <div className="product-detail">
-        <div className="product-detail-image">
-          <img
-            src={product.imageUrl || '/placeholder-product.jpg'}
-            alt={product.name}
-          />
-        </div>
+    <Container size="3">
+      <Card size="2" my="4">
+        <Grid columns={{ initial: '1', sm: '2' }} gap="6">
+          <Box>
+            <AspectRatio ratio={1}>
+              <img
+                src={product.imageUrl || '/placeholder-product.jpg'}
+                alt={product.name}
+                style={{
+                  objectFit: 'cover',
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: 'var(--radius-3)'
+                }}
+              />
+            </AspectRatio>
+          </Box>
 
-        <div className="product-detail-info">
-          <h2 className="product-detail-name">{product.name}</h2>
+          <Box>
+            <Heading size="6" mb="2">{product.name}</Heading>
+            <Text size="6" weight="bold" color="pink" mb="4">
+              ${product.price.toFixed(2)}
+            </Text>
 
-          <div className="product-detail-price">${product.price.toFixed(2)}</div>
+            <Separator size="4" my="4" />
 
-          <div className="product-detail-description">
-            <h3>Description</h3>
-            <p>{product.description}</p>
-          </div>
+            <Box mb="4">
+              <Heading size="4" mb="2">Description</Heading>
+              <Text as="p" size="3" color="gray">
+                {product.description}
+              </Text>
+            </Box>
 
-          {isAuthenticated && !isAdmin && (
-            <div className="product-detail-actions">
-              <div className="quantity-control">
-                <label htmlFor="quantity">Quantity:</label>
-                <input
-                  type="number"
-                  id="quantity"
-                  min="1"
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                />
-              </div>
+            {isAuthenticated && !isAdmin && (
+              <Box mb="4">
+                <Heading size="3" mb="2">Quantity</Heading>
+                <Flex align="center" gap="2" mb="4">
+                  <Button
+                    variant="soft"
+                    color="gray"
+                    size="2"
+                    onClick={handleDecrement}
+                    disabled={quantity <= 1}
+                  >
+                    <MinusIcon />
+                  </Button>
 
-              <button onClick={handleAddToCart} className="add-to-cart-btn">
-                Add to Cart
-              </button>
-            </div>
-          )}
+                  <TextField.Root size="2" style={{ width: '80px' }}>
+                    <TextField.Input
+                      type="number"
+                      id="quantity"
+                      min="1"
+                      value={quantity}
+                      onChange={handleQuantityChange}
+                      style={{ textAlign: 'center' }}
+                    />
+                  </TextField.Root>
 
-          <button
-            onClick={() => navigate('/products')}
-            className="btn-secondary back-btn"
-          >
-            Back to Products
-          </button>
-        </div>
-      </div>
-    </div>
+                  <Button
+                    variant="soft"
+                    color="gray"
+                    size="2"
+                    onClick={handleIncrement}
+                  >
+                    <PlusIcon />
+                  </Button>
+                </Flex>
+
+                <Button
+                  size="3"
+                  onClick={handleAddToCart}
+                  style={{ width: '100%' }}
+                >
+                  <BackpackIcon />
+                  Add to Cart
+                </Button>
+              </Box>
+            )}
+
+            <Button
+              variant="soft"
+              onClick={() => navigate('/products')}
+              size="2"
+            >
+              <ArrowLeftIcon />
+              Back to Products
+            </Button>
+          </Box>
+        </Grid>
+      </Card>
+    </Container>
   );
 }
 

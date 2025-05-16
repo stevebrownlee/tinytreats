@@ -1,67 +1,78 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { Heading, Text, Flex, Box, Grid, Card, Button, Container } from '@radix-ui/themes';
 
 function HomePage() {
   const { isAuthenticated, user, isAdmin, isBaker } = useAuth();
 
   return (
-    <div className="home-page">
-      <div className="hero-section">
-        <h1>Welcome to TinyTreats Bakery</h1>
-        <p className="hero-subtitle">Delicious treats made with love</p>
+    <Box className="home-page">
+      <Box className="hero-section" style={{ textAlign: 'center', padding: '60px 0' }}>
+        <Heading size="8" mb="2">Welcome to TinyTreats Bakery</Heading>
+        <Text className="hero-subtitle" size="5" color="gray" mb="6">Delicious treats made with love</Text>
 
         {isAuthenticated ? (
-          <div className="welcome-message">
-            <h2>Welcome back, {user?.firstName || 'Valued Customer'}!</h2>
-          </div>
+          <Box className="welcome-message">
+            <Heading size="6" mb="4">Welcome back, {user?.firstName || 'Valued Customer'}!</Heading>
+          </Box>
         ) : (
-          <div className="auth-buttons">
-            <Link to="/login" className="btn">Login</Link>
-            <Link to="/register" className="btn-secondary">Register</Link>
-          </div>
+          <Flex className="auth-buttons" justify="center" gap="4">
+            <Button asChild size="3">
+              <Link to="/login">Login</Link>
+            </Button>
+            <Button asChild variant="soft" size="3">
+              <Link to="/register">Register</Link>
+            </Button>
+          </Flex>
         )}
-      </div>
+      </Box>
 
-      <div className="features-section">
-        <div className="feature">
-          <h3>Fresh Baked Goods</h3>
-          <p>Our products are baked fresh daily using only the finest ingredients.</p>
-        </div>
+      <Container size="3">
+        <Grid className="features-section" columns={{ initial: '1', sm: '3' }} gap="6" my="8">
+          <Card>
+            <Heading size="4" mb="2">Fresh Baked Goods</Heading>
+            <Text as="p">Our products are baked fresh daily using only the finest ingredients.</Text>
+          </Card>
 
-        <div className="feature">
-          <h3>Custom Orders</h3>
-          <p>Need something special? We can create custom treats for any occasion.</p>
-        </div>
+          <Card>
+            <Heading size="4" mb="2">Custom Orders</Heading>
+            <Text as="p">Need something special? We can create custom treats for any occasion.</Text>
+          </Card>
 
-        <div className="feature">
-          <h3>Fast Delivery</h3>
-          <p>Get your favorite treats delivered right to your door.</p>
-        </div>
-      </div>
+          <Card>
+            <Heading size="4" mb="2">Fast Delivery</Heading>
+            <Text as="p">Get your favorite treats delivered right to your door.</Text>
+          </Card>
+        </Grid>
 
-      {isAuthenticated && (isAdmin || isBaker) && (
-        <div className="staff-section">
-          <h2>Staff Dashboard</h2>
-          <p>As a {isAdmin ? 'administrator' : 'baker'}, you have access to:</p>
+        {isAuthenticated && (isAdmin || isBaker) && (
+          <Box className="staff-section" my="8">
+            <Heading size="6" mb="2">Staff Dashboard</Heading>
+            <Text as="p" mb="4">As a {isAdmin ? 'administrator' : 'baker'}, you have access to:</Text>
 
-          <div className="staff-features">
-            <div className="staff-feature">
-              <h3>Order Management</h3>
-              <p>View and manage all customer orders.</p>
-              <Link to="/orders" className="btn-secondary">Manage Orders</Link>
-            </div>
+            <Grid className="staff-features" columns={{ initial: '1', sm: '2' }} gap="4">
+              <Card>
+                <Heading size="4" mb="2">Order Management</Heading>
+                <Text as="p" mb="3">View and manage all customer orders.</Text>
+                <Button asChild variant="soft">
+                  <Link to="/orders">Manage Orders</Link>
+                </Button>
+              </Card>
 
-            {isAdmin && (
-              <div className="staff-feature">
-                <h3>User Management</h3>
-                <p>Manage user accounts and roles.</p>
-                <Link to="/admin/users" className="btn-secondary">Manage Users</Link>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
+              {isAdmin && (
+                <Card>
+                  <Heading size="4" mb="2">User Management</Heading>
+                  <Text as="p" mb="3">Manage user accounts and roles.</Text>
+                  <Button asChild variant="soft">
+                    <Link to="/admin/users">Manage Users</Link>
+                  </Button>
+                </Card>
+              )}
+            </Grid>
+          </Box>
+        )}
+      </Container>
+    </Box>
   );
 }
 
