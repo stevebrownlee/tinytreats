@@ -25,7 +25,7 @@ function NavBar() {
             <NavigationMenu.List style={{ display: 'flex', gap: '20px', alignItems: 'center', listStyle: 'none' }}>
               <NavigationMenu.Item>
                 <NavigationMenu.Link asChild>
-                  <Link to="/products">Products</Link>
+                  <Link to="/productlist">Products</Link>
                 </NavigationMenu.Link>
               </NavigationMenu.Item>
 

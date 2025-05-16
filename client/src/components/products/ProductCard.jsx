@@ -31,7 +31,7 @@ function ProductCard({ product, onAddToCart }) {
 
       <Box p="3">
         <Heading as="h3" size="4" mb="1">
-          <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to={`/productlist/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             {product.name}
           </Link>
         </Heading>
@@ -53,7 +53,7 @@ function ProductCard({ product, onAddToCart }) {
 
         <Flex gap="3" justify="between">
           <Button asChild variant="soft" size="2">
-            <Link to={`/products/${product.id}`}>
+            <Link to={`/productlist/${product.id}`}>
               View Details
             </Link>
           </Button>

@@ -10,15 +10,14 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
-import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import OrdersPage from './pages/OrdersPage';
 import NotFoundPage from './pages/NotFoundPage';
 import TestPage from './pages/TestPage';
-import MockProductsPage from './pages/MockProductsPage';
 import SimplePage from './pages/SimplePage';
 import RadixDemoPage from './pages/RadixDemoPage';
+import SimpleProductsPage from './pages/SimpleProductsPage';
 
 // Protected route component
 function ProtectedRoute({ children, requiredRoles = [] }) {
@@ -83,11 +82,11 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: '/products',
-        element: <ProductsPage />
+        path: '/productlist',
+        element: <SimpleProductsPage />
       },
       {
-        path: '/products/:id',
+        path: '/productlist/:id',
         element: <ProductDetailPage />
       },
       {
@@ -109,10 +108,6 @@ export const router = createBrowserRouter([
       {
         path: '/test',
         element: <TestPage />
-      },
-      {
-        path: '/mock-products',
-        element: <MockProductsPage />
       },
       {
         path: '/simple',
