@@ -12,7 +12,7 @@ public static class OrderEndpoints
     public static void MapOrderEndpoints(this WebApplication app)
     {
         // Get all orders - Admin can see all, Baker can see all, Customer can see only their own
-        app.MapGet("/api/orders", async (
+        app.MapGet("/orders", async (
             ClaimsPrincipal user,
             UserManager<IdentityUser> userManager,
             TinyTreatsDbContext dbContext) =>
@@ -75,7 +75,7 @@ public static class OrderEndpoints
         }).RequireAuthorization();
 
         // Get order by ID - Admin can see any, Baker can see any, Customer can see only their own
-        app.MapGet("/api/orders/{id}", async (
+        app.MapGet("/orders/{id}", async (
             int id,
             ClaimsPrincipal user,
             UserManager<IdentityUser> userManager,
@@ -141,7 +141,7 @@ public static class OrderEndpoints
         }).RequireAuthorization();
 
         // Create a new order - Any authenticated user
-        app.MapPost("/api/orders", async (
+        app.MapPost("/orders", async (
             OrderCreateDto orderDto,
             ClaimsPrincipal user,
             UserManager<IdentityUser> userManager,
@@ -218,11 +218,11 @@ public static class OrderEndpoints
                 TotalAmount = order.TotalAmount
             };
 
-            return Results.Created($"/api/orders/{order.Id}", createdOrderDto);
+            return Results.Created($"/orders/{order.Id}", createdOrderDto);
         }).RequireAuthorization();
 
         // Update order status - Only Bakers and Admins
-        app.MapPatch("/api/orders/{id}/status", async (
+        app.MapPatch("/orders/{id}/status", async (
             int id,
             OrderStatusUpdateDto statusDto,
             TinyTreatsDbContext dbContext) =>
@@ -252,7 +252,7 @@ public static class OrderEndpoints
         }).RequireAuthorization(policy => policy.RequireRole("Baker", "Admin"));
 
         // Cancel an order - Admin can cancel any, Customer can cancel only their own pending orders
-        app.MapDelete("/api/orders/{id}", async (
+        app.MapDelete("/orders/{id}", async (
             int id,
             ClaimsPrincipal user,
             UserManager<IdentityUser> userManager,

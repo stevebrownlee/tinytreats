@@ -44,7 +44,7 @@ function ShoppingCart() {
       clearCart();
 
       // Navigate to orders page
-      navigate('/orders');
+      navigate('/orderlist');
     } catch (err) {
       console.error('Error creating order:', err);
       setError('Failed to place order. Please try again later.');

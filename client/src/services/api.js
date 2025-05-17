@@ -153,11 +153,11 @@ export const productService = {
 // Order-specific services
 export const orderService = {
   async getAllOrders() {
-    return fetchData('order');
+    return fetchData('orders');
   },
 
   async createOrder(orderData) {
-    return postData('order', orderData);
+    return postData('orders', orderData);
   },
 
   async updateOrderStatus(id, newStatus) {

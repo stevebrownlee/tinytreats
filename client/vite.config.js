@@ -17,7 +17,17 @@ export default defineConfig({
         changeOrigin: true,
         secure: false
       },
-      '/order': {
+      '/orders': {
+        target: 'https://localhost:7086',
+        changeOrigin: true,
+        secure: false
+      },
+      '/users': {
+        target: 'https://localhost:7086',
+        changeOrigin: true,
+        secure: false
+      },
+      '/roles': {
         target: 'https://localhost:7086',
         changeOrigin: true,
         secure: false

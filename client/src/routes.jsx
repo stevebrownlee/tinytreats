@@ -98,7 +98,7 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: '/orders',
+        path: '/orderlist',
         element: (
           <ProtectedRoute>
             <OrdersPage />
@@ -106,16 +106,8 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: '/test',
-        element: <TestPage />
-      },
-      {
         path: '/simple',
         element: <SimplePage />
-      },
-      {
-        path: '/radix-demo',
-        element: <RadixDemoPage />
       },
       {
         path: '*',

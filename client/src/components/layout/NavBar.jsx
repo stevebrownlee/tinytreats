@@ -58,7 +58,7 @@ function NavBar() {
 
                   <NavigationMenu.Item>
                     <NavigationMenu.Link asChild>
-                      <Link to="/orders">Orders</Link>
+                      <Link to="/orderlist">Orders</Link>
                     </NavigationMenu.Link>
                   </NavigationMenu.Item>
 

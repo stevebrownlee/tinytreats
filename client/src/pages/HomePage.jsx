@@ -55,7 +55,7 @@ function HomePage() {
                 <Heading size="4" mb="2">Order Management</Heading>
                 <Text as="p" mb="3">View and manage all customer orders.</Text>
                 <Button asChild variant="soft">
-                  <Link to="/orders">Manage Orders</Link>
+                  <Link to="/orderlist">Manage Orders</Link>
                 </Button>
               </Card>
 
