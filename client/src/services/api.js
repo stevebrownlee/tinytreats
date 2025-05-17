@@ -3,7 +3,12 @@ const API_URL = '';
 
 // Generic GET request
 export async function fetchData(endpoint) {
-  const response = await fetch(`/${endpoint}`, {
+  // Ensure endpoint doesn't start with a slash
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
+
+  console.log(`Fetching from endpoint: /${cleanEndpoint}`);
+
+  const response = await fetch(`/${cleanEndpoint}`, {
     credentials: 'include', // Important for cookie-based auth
     headers: {
       'Content-Type': 'application/json',
@@ -135,6 +140,59 @@ export const authService = {
     } catch (error) {
       console.error('Failed to get user roles:', error);
       return [];
+    }
+  },
+
+  // Get all users with their roles
+  async getAllUsers() {
+    try {
+      // First get all users from the auth/users endpoint
+      console.log('Fetching users from auth/users endpoint');
+      const users = await fetchData('auth/users');
+
+
+      // For each user, get their roles
+      const usersWithRoles = await Promise.all(
+        users.map(async (user) => {
+          const roles = await this.getUserRoles(user.email);
+          return { ...user, roles };
+        })
+      );
+
+      return usersWithRoles;
+    } catch (error) {
+      console.error('Failed to get all users:', error);
+      return []; // Return empty array instead of throwing
+    }
+  },
+
+  // Get all available roles
+  async getAllRoles() {
+    try {
+      return await fetchData('roles');
+    } catch (error) {
+      console.error('Failed to get roles:', error);
+      throw error;
+    }
+  },
+
+  // Add a role to a user
+  async addRoleToUser(email, roleName) {
+    try {
+      return await postData('users/roles', { email, roleName });
+    } catch (error) {
+      console.error(`Failed to add role ${roleName} to user ${email}:`, error);
+      throw error;
+    }
+  },
+
+  // Remove a role from a user
+  async removeRoleFromUser(email, roleName) {
+    try {
+      return await deleteData(`users/${email}/roles/${roleName}`);
+    } catch (error) {
+      console.error(`Failed to remove role ${roleName} from user ${email}:`, error);
+      throw error;
     }
   }
 };

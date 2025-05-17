@@ -10,7 +10,8 @@ export default defineConfig({
       '/auth': {
         target: 'https://localhost:7086',
         changeOrigin: true,
-        secure: false
+        secure: false,
+        rewrite: (path) => path
       },
       '/products': {
         target: 'https://localhost:7086',

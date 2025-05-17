@@ -32,7 +32,7 @@ builder.Services.AddAuthentication("Identity.Application")
         options.Cookie.HttpOnly = true; // Prevent JavaScript access to the cookie
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.Cookie.SameSite = SameSiteMode.Lax;
-        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // Allow both HTTP and HTTPS in development
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
         options.Events = new CookieAuthenticationEvents
         {
             OnRedirectToLogin = context =>
@@ -66,7 +66,8 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:3000", "http://localhost:5173") // React and Vite default ports
               .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials(); // Allow credentials (cookies)
+              .AllowCredentials() // Allow credentials (cookies)
+              .SetIsOriginAllowed(_ => true); // For development only - allows any origin
     });
 });
 

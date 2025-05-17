@@ -18,6 +18,7 @@ import TestPage from './pages/TestPage';
 import SimplePage from './pages/SimplePage';
 import RadixDemoPage from './pages/RadixDemoPage';
 import SimpleProductsPage from './pages/SimpleProductsPage';
+import AdminUsersPage from './pages/AdminUsersPage';
 
 // Protected route component
 function ProtectedRoute({ children, requiredRoles = [] }) {
@@ -108,6 +109,14 @@ export const router = createBrowserRouter([
       {
         path: '/simple',
         element: <SimplePage />
+      },
+      {
+        path: '/admin/users',
+        element: (
+          <ProtectedRoute requiredRoles={['Admin']}>
+            <AdminUsersPage />
+          </ProtectedRoute>
+        )
       },
       {
         path: '*',

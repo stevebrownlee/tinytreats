@@ -3,6 +3,7 @@ using System.Security.Claims;
 using TinyTreats.Data;
 using TinyTreats.Models;
 using TinyTreats.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace TinyTreats.Endpoints;
 
@@ -11,6 +12,32 @@ public static class AuthEndpoints
     // DTOs for registration and login
     public static void MapAuthEndpoints(this WebApplication app)
     {
+        // Get all users - Admin only
+        app.MapGet("/auth/users", async (
+            UserManager<IdentityUser> userManager,
+            TinyTreatsDbContext dbContext) =>
+        {
+            // Get all users
+            var users = await userManager.Users.ToListAsync();
+
+            // Get user profiles
+            var userProfiles = await dbContext.UserProfiles.ToListAsync();
+
+            // Join users with profiles
+            var result = users.Select(user => {
+                var profile = userProfiles.FirstOrDefault(p => p.IdentityUserId == user.Id);
+                return new {
+                    id = user.Id,
+                    email = user.Email,
+                    firstName = profile?.FirstName ?? "",
+                    lastName = profile?.LastName ?? "",
+                    address = profile?.Address ?? ""
+                };
+            });
+
+            return Results.Ok(result);
+        }).RequireAuthorization(policy => policy.RequireRole("Admin"));
+
         // Registration endpoint
         app.MapPost("/auth/register", async (
             RegistrationDto registration,
