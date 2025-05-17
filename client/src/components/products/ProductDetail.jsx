@@ -5,13 +5,13 @@ import { useAuth } from '../../hooks/useAuth';
 import {
   Heading,
   Text,
+  TextField,
   Button,
   Flex,
   Box,
   Card,
   Grid,
   AspectRatio,
-  TextField,
   Separator,
   Container
 } from '@radix-ui/themes';
@@ -149,16 +149,13 @@ function ProductDetail({ onAddToCart }) {
                     <MinusIcon />
                   </Button>
 
-                  <TextField.Root size="2" style={{ width: '80px' }}>
-                    <TextField.Input
-                      type="number"
-                      id="quantity"
-                      min="1"
-                      value={quantity}
-                      onChange={handleQuantityChange}
-                      style={{ textAlign: 'center' }}
-                    />
-                  </TextField.Root>
+                  <TextField.Root
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                    placeholder="Enter quantity" />
 
                   <Button
                     variant="soft"
@@ -183,7 +180,7 @@ function ProductDetail({ onAddToCart }) {
 
             <Button
               variant="soft"
-              onClick={() => navigate('/products')}
+              onClick={() => navigate('/productlist')}
               size="2"
             >
               <ArrowLeftIcon />

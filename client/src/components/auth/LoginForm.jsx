@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { Box, Card, Heading, Text, TextField, Button, Flex, Link as RadixLink } from '@radix-ui/themes';
+import { Box, Card, Heading, Text, Button, Flex, Link as RadixLink } from '@radix-ui/themes';
 import { EnvelopeClosedIcon, LockClosedIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 
 function LoginForm() {

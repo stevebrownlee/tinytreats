@@ -178,7 +178,7 @@ public static class OrderEndpoints
             // Create the order
             var order = new Order
             {
-                OrderDate = DateTime.Now,
+                OrderDate = DateTime.UtcNow,
                 Status = "Pending",
                 UserProfileId = userProfile.Id,
                 OrderItems = orderDto.Items.Select(i => new OrderItem
@@ -244,7 +244,7 @@ public static class OrderEndpoints
             // If the order is delivered, set the delivery date
             if (statusDto.Status == "Delivered")
             {
-                order.DeliveryDate = DateTime.Now;
+                order.DeliveryDate = DateTime.UtcNow;
             }
 
             await dbContext.SaveChangesAsync();

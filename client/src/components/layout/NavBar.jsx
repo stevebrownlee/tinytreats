@@ -58,7 +58,12 @@ function NavBar() {
 
                   <NavigationMenu.Item>
                     <NavigationMenu.Link asChild>
-                      <Link to="/orderlist">Orders</Link>
+                      {
+                        isAdmin
+                          ? <Link to="/orderlist">All Orders</Link>
+                          : <Link to="/orderlist">Your Orders</Link>
+                      }
+
                     </NavigationMenu.Link>
                   </NavigationMenu.Item>
 

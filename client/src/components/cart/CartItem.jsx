@@ -36,7 +36,7 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
 
         <Box style={{ flex: 1 }}>
           <Heading as="h3" size="3" mb="1">
-            <Link to={`/products/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to={`/productlist/${item.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               {item.name}
             </Link>
           </Heading>
@@ -58,16 +58,13 @@ function CartItem({ item, onUpdateQuantity, onRemove }) {
               <MinusIcon />
             </Button>
 
-            <TextField.Root size="1" style={{ width: '60px' }}>
-              <TextField.Input
-                type="number"
+            <TextField.Root
+              type="number"
                 id={`quantity-${item.id}`}
                 min="1"
                 value={item.quantity}
                 onChange={handleQuantityChange}
-                style={{ textAlign: 'center' }}
-              />
-            </TextField.Root>
+                style={{ textAlign: 'center' }} />
 
             <Button
               variant="soft"
