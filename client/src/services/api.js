@@ -219,6 +219,6 @@ export const orderService = {
   },
 
   async updateOrderStatus(id, newStatus) {
-    return patchData(`order/${id}/status`, newStatus);
+    return patchData(`orders/${id}/status`, { status: newStatus });
   }
 };

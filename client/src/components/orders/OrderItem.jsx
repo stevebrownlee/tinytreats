@@ -24,6 +24,7 @@ function OrderItem({ order, canUpdateStatus, onStatusChange }) {
 
     try {
       setIsUpdating(true);
+      console.log(`Updating order ${order.id} status to ${newStatus}`);
       await onStatusChange(order.id, newStatus);
     } finally {
       setIsUpdating(false);
