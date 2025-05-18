@@ -74,11 +74,11 @@ function OrderItem({ order, canUpdateStatus, onStatusChange }) {
           <div className="order-items">
             <h4>Items</h4>
             <ul>
-              {order.orderItems.map(item => (
+              {order.items.map(item => (
                 <li key={item.id} className="order-product">
-                  <span className="product-name">{item.product.name}</span>
+                  <span className="product-name">{item.productName}</span>
                   <span className="product-quantity">x{item.quantity}</span>
-                  <span className="product-price">${(item.product.price * item.quantity).toFixed(2)}</span>
+                  <span className="product-price">${(item.productPrice * item.quantity).toFixed(2)}</span>
                 </li>
               ))}
             </ul>
