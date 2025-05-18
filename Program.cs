@@ -83,6 +83,10 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+// Enabled static files middleware
+app.UseStaticFiles();
+
+
 // Ensure that HTTPS protocol is used
 app.UseHttpsRedirection();
 

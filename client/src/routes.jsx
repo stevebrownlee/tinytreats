@@ -19,6 +19,7 @@ import SimplePage from './pages/SimplePage';
 import RadixDemoPage from './pages/RadixDemoPage';
 import SimpleProductsPage from './pages/SimpleProductsPage';
 import AdminUsersPage from './pages/AdminUsersPage';
+import ProductList from './components/products/ProductList.jsx';
 
 // Protected route component
 function ProtectedRoute({ children, requiredRoles = [] }) {
@@ -84,7 +85,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/productlist',
-        element: <SimpleProductsPage />
+        element: <ProductList />
       },
       {
         path: '/productlist/:id',

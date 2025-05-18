@@ -10,7 +10,7 @@ import {
   Flex,
   Card
 } from '@radix-ui/themes';
-import { MagnifyingGlassIcon, ReloadIcon, UpdateIcon } from '@radix-ui/react-icons';
+import { MagnifyingGlassIcon, UpdateIcon } from '@radix-ui/react-icons';
 
 function ProductList({ onAddToCart }) {
   const [products, setProducts] = useState([]);
@@ -121,16 +121,14 @@ function ProductList({ onAddToCart }) {
         <Heading size="5" as="h2">Browse Our Treats</Heading>
 
         <Box className="search-container" style={{ maxWidth: '300px', width: '100%' }}>
-          <TextField.Root>
+          <TextField.Root
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={handleSearchChange}>
             <TextField.Slot>
               <MagnifyingGlassIcon height="16" width="16" />
             </TextField.Slot>
-            <TextField.Input
-              type="text"
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
           </TextField.Root>
         </Box>
       </Flex>

@@ -32,6 +32,11 @@ export default defineConfig({
         target: 'https://localhost:7086',
         changeOrigin: true,
         secure: false
+      },
+      '/images': {
+        target: 'https://localhost:7086',
+        changeOrigin: true,
+        secure: false
       }
       // Add any other API endpoints you need
     }
