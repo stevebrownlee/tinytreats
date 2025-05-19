@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { Card, Heading, Text, Flex, Box, Button, TextField } from '@radix-ui/themes';
+import { Pencil1Icon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons';
 
 function UserProfile() {
   const { user, loading } = useAuth();
@@ -15,7 +17,7 @@ function UserProfile() {
   const [successMessage, setSuccessMessage] = useState('');
 
   // Initialize form data when user data is loaded
-  useState(() => {
+  useEffect(() => {
     if (user) {
       setFormData({
         firstName: user.firstName || '',
@@ -97,91 +99,142 @@ function UserProfile() {
   }
 
   return (
-    <div className="profile-container">
-      <h2>User Profile</h2>
+    <Card size="3" style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <Heading as="h2" size="5" mb="4">User Profile</Heading>
 
       {successMessage && (
-        <div className="success-message">{successMessage}</div>
+        <Box mb="4" p="3" style={{ backgroundColor: '#e6f7e6', borderRadius: '4px', color: '#2e7d32' }}>
+          <Text>{successMessage}</Text>
+        </Box>
       )}
 
       {submitError && (
-        <div className="error-message">{submitError}</div>
+        <Box mb="4" p="3" style={{ backgroundColor: '#ffebee', borderRadius: '4px', color: '#c62828' }}>
+          <Text>{submitError}</Text>
+        </Box>
       )}
 
       {isEditing ? (
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              disabled={isSubmitting}
-            />
-            {errors.firstName && <div className="error">{errors.firstName}</div>}
-          </div>
+          <Flex direction="column" gap="3">
+            <Box>
+              <TextField.Root value={user.email}
+                  disabled
+                  style={{ backgroundColor: '#f5f5f5' }}>
+                <TextField.Slot>
+                  <Text size="2" weight="bold">Email:</Text>
+                </TextField.Slot>
+              </TextField.Root>
+            </Box>
 
-          <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              disabled={isSubmitting}
-            />
-            {errors.lastName && <div className="error">{errors.lastName}</div>}
-          </div>
+            <Box>
+              <TextField.Root id="firstName"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  disabled={isSubmitting}>
+                <TextField.Slot>
+                  <Text size="2" weight="bold">First Name:</Text>
+                </TextField.Slot>
+              </TextField.Root>
+              {errors.firstName && (
+                <Text size="1" color="red" mt="1">{errors.firstName}</Text>
+              )}
+            </Box>
 
-          <div className="form-group">
-            <label htmlFor="address">Address</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              disabled={isSubmitting}
-            />
-            {errors.address && <div className="error">{errors.address}</div>}
-          </div>
+            <Box>
+              <TextField.Root id="lastName"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  disabled={isSubmitting}>
+                <TextField.Slot>
+                  <Text size="2" weight="bold">Last Name:</Text>
+                </TextField.Slot>
+              </TextField.Root>
+              {errors.lastName && (
+                <Text size="1" color="red" mt="1">{errors.lastName}</Text>
+              )}
+            </Box>
 
-          <div className="button-group">
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : 'Save Changes'}
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              disabled={isSubmitting}
-              className="btn-secondary"
-            >
-              Cancel
-            </button>
-          </div>
+            <Box>
+              <TextField.Root id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  disabled={isSubmitting}>
+                <TextField.Slot>
+                  <Text size="2" weight="bold">Address:</Text>
+                </TextField.Slot>
+              </TextField.Root>
+              {errors.address && (
+                <Text size="1" color="red" mt="1">{errors.address}</Text>
+              )}
+            </Box>
+
+            <Flex gap="3" mt="3" justify="end">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                color="green"
+              >
+                <CheckIcon />
+                {isSubmitting ? 'Saving...' : 'Save Changes'}
+              </Button>
+              <Button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                disabled={isSubmitting}
+                variant="soft"
+                color="gray"
+              >
+                <Cross2Icon />
+                Cancel
+              </Button>
+            </Flex>
+          </Flex>
         </form>
       ) : (
-        <div className="profile-details">
-          <div className="profile-field">
-            <strong>Email:</strong> {user.email}
-          </div>
-          <div className="profile-field">
-            <strong>First Name:</strong> {user.firstName}
-          </div>
-          <div className="profile-field">
-            <strong>Last Name:</strong> {user.lastName}
-          </div>
-          <div className="profile-field">
-            <strong>Address:</strong> {user.address}
-          </div>
+        <Box>
+          <Flex direction="column" gap="3">
+            <Flex>
+              <Box width="150px">
+                <Text weight="bold">Email:</Text>
+              </Box>
+              <Text>{user.email}</Text>
+            </Flex>
 
-          <button onClick={() => setIsEditing(true)}>Edit Profile</button>
-        </div>
+            <Flex>
+              <Box width="150px">
+                <Text weight="bold">First Name:</Text>
+              </Box>
+              <Text>{user.firstName || 'Not provided'}</Text>
+            </Flex>
+
+            <Flex>
+              <Box width="150px">
+                <Text weight="bold">Last Name:</Text>
+              </Box>
+              <Text>{user.lastName || 'Not provided'}</Text>
+            </Flex>
+
+            <Flex>
+              <Box width="150px">
+                <Text weight="bold">Address:</Text>
+              </Box>
+              <Text>{user.address || 'Not provided'}</Text>
+            </Flex>
+
+            <Flex justify="end" mt="3">
+              <Button onClick={() => setIsEditing(true)} color="blue">
+                <Pencil1Icon />
+                Edit Profile
+              </Button>
+            </Flex>
+          </Flex>
+        </Box>
       )}
-    </div>
+    </Card>
   );
 }
 

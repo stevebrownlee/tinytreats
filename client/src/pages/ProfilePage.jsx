@@ -1,16 +1,14 @@
 import UserProfile from '../components/profile/UserProfile';
+import { Heading, Container, Box } from '@radix-ui/themes';
 
 function ProfilePage() {
   return (
-    <div className="profile-page">
-      <div className="page-header">
-        <h1>Your Profile</h1>
-      </div>
-
-      <div className="profile-content">
+    <Container size="3">
+      <Box py="6">
+        <Heading as="h1" size="7" align="center" mb="6">Your Profile</Heading>
         <UserProfile />
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 }
 
