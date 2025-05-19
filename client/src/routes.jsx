@@ -20,6 +20,7 @@ import RadixDemoPage from './pages/RadixDemoPage';
 import SimpleProductsPage from './pages/SimpleProductsPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import CreateProductPage from './pages/CreateProductPage';
+import EditProductPage from './pages/EditProductPage';
 import ProductList from './components/products/ProductList.jsx';
 
 // Protected route component
@@ -95,8 +96,16 @@ export const router = createBrowserRouter([
       {
         path: '/products/create',
         element: (
-          <ProtectedRoute requiredRoles={['Baker']}>
+          <ProtectedRoute requiredRoles={['Admin', 'Baker']}>
             <CreateProductPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/products/edit/:id',
+        element: (
+          <ProtectedRoute requiredRoles={['Admin', 'Baker']}>
+            <EditProductPage />
           </ProtectedRoute>
         )
       },

@@ -21,7 +21,8 @@ import {
   MinusIcon,
   BackpackIcon,
   ReloadIcon,
-  TrashIcon
+  TrashIcon,
+  Pencil1Icon
 } from '@radix-ui/react-icons';
 
 function ProductDetail({ onAddToCart }) {
@@ -199,17 +200,30 @@ function ProductDetail({ onAddToCart }) {
 
             {(isAdmin || isBaker) && (
               <Box mb="4">
-                <Button
-                  variant="soft"
-                  color="red"
-                  size="3"
-                  onClick={handleDeleteProduct}
-                  disabled={deleteLoading}
-                  style={{ width: '100%' }}
-                >
-                  <TrashIcon />
-                  {deleteLoading ? 'Removing...' : 'Remove Product'}
-                </Button>
+                <Flex direction="column" gap="2">
+                  <Button
+                    variant="soft"
+                    color="blue"
+                    size="3"
+                    onClick={() => navigate(`/products/edit/${id}`)}
+                    style={{ width: '100%' }}
+                  >
+                    <Pencil1Icon />
+                    Edit Product
+                  </Button>
+
+                  <Button
+                    variant="soft"
+                    color="red"
+                    size="3"
+                    onClick={handleDeleteProduct}
+                    disabled={deleteLoading}
+                    style={{ width: '100%' }}
+                  >
+                    <TrashIcon />
+                    {deleteLoading ? 'Removing...' : 'Remove Product'}
+                  </Button>
+                </Flex>
               </Box>
             )}
 

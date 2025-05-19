@@ -151,7 +151,7 @@ public static class ProductEndpoints
                 IsAvailable = product.IsAvailable,
                 ImageUrl = product.ImageUrl
             });
-        }).RequireAuthorization(policy => policy.RequireRole("Admin"));
+        }).RequireAuthorization(policy => policy.RequireRole("Admin", "Baker"));
 
         // Delete a product - Admin only
         app.MapDelete("/products/{id}", async (
