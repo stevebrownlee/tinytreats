@@ -83,7 +83,7 @@ public static class RoleEndpoints
             var roles = await userManager.GetRolesAsync(user);
 
             return Results.Ok(roles);
-        }).RequireAuthorization(policy => policy.RequireRole("Admin"));
+        }).RequireAuthorization(policy => policy.RequireRole("Admin", "Baker"));
 
         // Remove a role from a user - Admin only
         app.MapDelete("/users/{email}/roles/{roleName}", async (

@@ -63,9 +63,18 @@ function NavBar() {
                           ? <Link to="/orderlist">All Orders</Link>
                           : <Link to="/orderlist">Your Orders</Link>
                       }
-
                     </NavigationMenu.Link>
                   </NavigationMenu.Item>
+
+                  {/* Show Create Product link only to Bakers */}
+                  {isBaker && (
+                    <NavigationMenu.Item>
+                      <NavigationMenu.Link asChild>
+                        <Link to="/products/create">Create Product</Link>
+                      </NavigationMenu.Link>
+                    </NavigationMenu.Item>
+                  )}
+
 
                   <DropdownMenu.Root>
                     <DropdownMenu.Trigger asChild>

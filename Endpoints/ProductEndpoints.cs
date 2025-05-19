@@ -73,7 +73,7 @@ public static class ProductEndpoints
             return Results.Ok(products);
         }).RequireAuthorization(policy => policy.RequireRole("Admin"));
 
-        // Create a new product - Admin only
+        // Create a new product - Admin or Baker role required
         app.MapPost("/products", async (
             ProductCreateDto productDto,
             TinyTreatsDbContext dbContext) =>
@@ -99,7 +99,7 @@ public static class ProductEndpoints
                 IsAvailable = product.IsAvailable,
                 ImageUrl = product.ImageUrl
             });
-        }).RequireAuthorization(policy => policy.RequireRole("Admin"));
+        }).RequireAuthorization(policy => policy.RequireRole("Admin", "Baker"));
 
         // Update a product - Admin only
         app.MapPut("/products/{id}", async (

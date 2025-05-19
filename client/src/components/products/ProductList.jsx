@@ -112,9 +112,6 @@ function ProductList({ onAddToCart }) {
     );
   }
 
-  // For debugging
-  console.log("Products:", products);
-
   return (
     <Box className="product-list-container">
       <Flex className="product-list-header" justify="between" align="center" mb="6">

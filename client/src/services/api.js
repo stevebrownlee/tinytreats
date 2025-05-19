@@ -205,6 +205,10 @@ export const productService = {
 
   async getProductById(id) {
     return fetchData(`products/${id}`);
+  },
+
+  async createProduct(productData) {
+    return postData('products', productData);
   }
 };
 

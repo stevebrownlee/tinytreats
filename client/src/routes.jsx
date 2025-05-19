@@ -19,6 +19,7 @@ import SimplePage from './pages/SimplePage';
 import RadixDemoPage from './pages/RadixDemoPage';
 import SimpleProductsPage from './pages/SimpleProductsPage';
 import AdminUsersPage from './pages/AdminUsersPage';
+import CreateProductPage from './pages/CreateProductPage';
 import ProductList from './components/products/ProductList.jsx';
 
 // Protected route component
@@ -90,6 +91,14 @@ export const router = createBrowserRouter([
       {
         path: '/productlist/:id',
         element: <ProductDetailPage />
+      },
+      {
+        path: '/products/create',
+        element: (
+          <ProtectedRoute requiredRoles={['Baker']}>
+            <CreateProductPage />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/cart',

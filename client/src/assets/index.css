@@ -118,7 +118,6 @@ input, select, textarea {
 /* Navigation */
 nav {
   background-color: white;
-  box-shadow: var(--box-shadow);
   padding: 15px 0;
   margin-bottom: 30px;
 }
