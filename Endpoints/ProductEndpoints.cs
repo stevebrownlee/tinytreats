@@ -182,6 +182,6 @@ public static class ProductEndpoints
             await dbContext.SaveChangesAsync();
 
             return Results.NoContent();
-        }).RequireAuthorization(policy => policy.RequireRole("Admin"));
+        }).RequireAuthorization(policy => policy.RequireRole("Admin", "Baker"));
     }
 }

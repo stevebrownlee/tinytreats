@@ -209,6 +209,10 @@ export const productService = {
 
   async createProduct(productData) {
     return postData('products', productData);
+  },
+
+  async deleteProduct(id) {
+    return deleteData(`products/${id}`);
   }
 };
 
