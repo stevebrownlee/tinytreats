@@ -62,7 +62,7 @@ function ShoppingCart() {
             Looks like you haven't added any products to your cart yet.
           </Text>
           <Button asChild size="3">
-            <Link to="/products">Browse Products</Link>
+            <Link to="/productlist">Browse Products</Link>
           </Button>
         </Card>
       </Container>
@@ -71,8 +71,6 @@ function ShoppingCart() {
 
   return (
     <Box className="shopping-cart">
-      <Heading size="6" mb="4">Your Shopping Cart</Heading>
-
       {error && (
         <Flex mb="4" align="center" gap="2" style={{
           padding: '10px',

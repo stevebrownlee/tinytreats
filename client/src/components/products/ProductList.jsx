@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { productService } from '../../services/api';
+import { useCart } from '../../hooks/useCart';
 import ProductCard from './ProductCard';
 import {
   Heading,
@@ -13,6 +14,7 @@ import {
 import { MagnifyingGlassIcon, UpdateIcon } from '@radix-ui/react-icons';
 
 function ProductList({ onAddToCart }) {
+  const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -87,6 +89,11 @@ function ProductList({ onAddToCart }) {
     setSearchTerm(e.target.value);
   };
 
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    alert(`Added ${product.name} to cart!`);
+  };
+
   // Filter products based on search term
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -144,7 +151,7 @@ function ProductList({ onAddToCart }) {
             <ProductCard
               key={product.id}
               product={product}
-              onAddToCart={onAddToCart}
+              onAddToCart={handleAddToCart}
             />
           ))}
         </Grid>
