@@ -232,5 +232,9 @@ export const orderService = {
 
   async updateOrderStatus(id, newStatus) {
     return patchData(`orders/${id}/status`, { status: newStatus });
+  },
+
+  async deleteOrder(id) {
+    return deleteData(`orders/${id}`);
   }
 };

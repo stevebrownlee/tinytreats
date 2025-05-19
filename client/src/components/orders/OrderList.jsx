@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { orderService } from '../../services/api';
 import { useAuth } from '../../hooks/useAuth';
-import OrderItem from './OrderItem';
+import { Card, Heading, Text, Flex, Box, Button, Badge } from '@radix-ui/themes';
+import { TrashIcon } from '@radix-ui/react-icons';
 
 function OrderList() {
-  const { isAdmin, isBaker } = useAuth();
+  const { isAdmin, isBaker, user } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
+  const [deletingOrderId, setDeletingOrderId] = useState(null);
 
   useEffect(() => {
     async function fetchOrders() {
@@ -43,6 +45,25 @@ function OrderList() {
     }
   };
 
+  const handleDeleteOrder = async (orderId) => {
+    if (!window.confirm('Are you sure you want to delete this order?')) {
+      return;
+    }
+
+    try {
+      setDeletingOrderId(orderId);
+      await orderService.deleteOrder(orderId);
+
+      // Remove the deleted order from state
+      setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
+    } catch (err) {
+      console.error('Error deleting order:', err);
+      alert('Failed to delete order. Please try again.');
+    } finally {
+      setDeletingOrderId(null);
+    }
+  };
+
   const handleFilterChange = (e) => {
     setStatusFilter(e.target.value);
   };
@@ -51,6 +72,27 @@ function OrderList() {
   const filteredOrders = statusFilter === 'all'
     ? orders
     : orders.filter(order => order.status === statusFilter);
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Pending': return 'orange';
+      case 'Preparing': return 'blue';
+      case 'Ready': return 'green';
+      case 'Delivered': return 'purple';
+      default: return 'gray';
+    }
+  };
 
   if (loading) {
     return <div className="loading">Loading orders...</div>;
@@ -67,14 +109,15 @@ function OrderList() {
   return (
     <div className="order-list">
       <div className="order-list-header">
-        <h2>{isAdmin ? 'All Orders' : 'Your Orders'}</h2>
+        <Heading as="h2" size="5" mb="4">{isAdmin ? 'All Orders' : 'Your Orders'}</Heading>
 
-        <div className="filter-container">
-          <label htmlFor="status-filter">Filter by Status:</label>
+        <Flex mb="4" align="center">
+          <Text as="label" htmlFor="status-filter" size="2" mr="2">Filter by Status:</Text>
           <select
             id="status-filter"
             value={statusFilter}
             onChange={handleFilterChange}
+            style={{ padding: '8px', borderRadius: '4px' }}
           >
             <option value="all">All</option>
             <option value="Pending">Pending</option>
@@ -82,22 +125,76 @@ function OrderList() {
             <option value="Ready">Ready</option>
             <option value="Delivered">Delivered</option>
           </select>
-        </div>
+        </Flex>
       </div>
 
-      <div className="orders">
+      <div className="orders" style={{ display: 'grid', gap: '16px' }}>
         {filteredOrders.length === 0 ? (
-          <div className="no-orders">
-            No orders with status "{statusFilter}".
-          </div>
+          <Text>No orders with status "{statusFilter}".</Text>
         ) : (
           filteredOrders.map(order => (
-            <OrderItem
-              key={order.id}
-              order={order}
-              canUpdateStatus={isAdmin || isBaker}
-              onStatusChange={handleStatusChange}
-            />
+            <Card key={order.id} style={{ overflow: 'visible' }}>
+              <Flex justify="between" align="start" mb="2">
+                <Box>
+                  <Heading as="h3" size="3">Order #{order.id}</Heading>
+                  <Text size="2" color="gray">{formatDate(order.orderDate)}</Text>
+                </Box>
+                <Flex align="center" gap="2">
+                  <Badge color={getStatusColor(order.status)}>{order.status}</Badge>
+                  <Text weight="bold">${order.totalAmount.toFixed(2)}</Text>
+                </Flex>
+              </Flex>
+
+              <Box my="3">
+                <Text weight="medium" size="2" mb="1">Items:</Text>
+                <Box style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                  {order.items.map(item => (
+                    <Flex key={item.productId} justify="between" py="1">
+                      <Text size="2">{item.productName} x{item.quantity}</Text>
+                      <Text size="2">${(item.productPrice * item.quantity).toFixed(2)}</Text>
+                    </Flex>
+                  ))}
+                </Box>
+              </Box>
+
+              <Flex justify="between" mt="3">
+                {(isAdmin || isBaker) && (
+                  <Flex align="center" gap="2">
+                    <Text as="label" htmlFor={`status-${order.id}`} size="2">Update Status:</Text>
+                    <select
+                      id={`status-${order.id}`}
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      disabled={deletingOrderId === order.id}
+                      style={{ padding: '4px', borderRadius: '4px' }}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Preparing">Preparing</option>
+                      <option value="Ready">Ready</option>
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  </Flex>
+                )}
+
+                {order.status === 'Pending' && (
+                  <Button
+                    color="red"
+                    variant="soft"
+                    onClick={() => handleDeleteOrder(order.id)}
+                    disabled={deletingOrderId === order.id}
+                  >
+                    <TrashIcon />
+                    {deletingOrderId === order.id ? 'Deleting...' : 'Cancel Order'}
+                  </Button>
+                )}
+              </Flex>
+
+              {order.deliveryDate && (
+                <Text size="2" color="gray" mt="2">
+                  <strong>Delivered on:</strong> {formatDate(order.deliveryDate)}
+                </Text>
+              )}
+            </Card>
           ))
         )}
       </div>
